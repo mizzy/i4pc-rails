@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<%= stylesheet_link_tag    "application" %>
+<%= stylesheet_link_tag    "emoji-iphone" %>
+<%= javascript_include_tag "application" %>
+<%= csrf_meta_tags %>
+
+<meta charset="UTF-8" />
+
+<title><%= yield(:title) %></title>
+
+<meta name="keywords" content="I4PC, Instagram for PC, Instagram, Viewer, Photo, iPhone, mizzy, daiskip, web, browsing, service" />
+<meta name="description" content="I4PC(Instagram for PC) is a web service for browsing photos on Instagram." />
+<meta name="google-site-verification" content="8-w2MfDZYbuqv4uPXfCsSba6ciRfdfe2RXjC5SlDMJk" />
+
+<%= yield(:meta) %>
+
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-21742395-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+
+<body id="<%= yield(:body_id) %>" class="<%= yield(:body_class) %>">
+
+<header>
+
+    <nav>
+        <ul>
+            <% if session[:username] %>
+            <li><a class="menu_feed" href="/">Feed</a></li>
+            <li><a class="menu_liked" href="/liked">Liked</a></li>
+            <li><a class="menu_you" href="/user/<%= session[:username] %>">You</a></li>
+            <li><a class="menu_popular" href="/popular">Popular</a></li>
+            <li><a class="menu_about" href="/about">About</a></li>
+            <li><a class="menu_logout" href="/logout">Logout</a></li>
+            <% else %>
+            <li><a class="menu_about" href="/about">About</a></li>
+            <li><a class="menu_login" href="/login">Login</a></li>
+            <% end %>
+        </ul>
+    </nav>
+
+
+    <h1><a href="/">I4PC</a></h1>
+
+</header>
+
+<%= yield %>
+
+<div class="share">
+
+    <div class="hatena">
+        <a href="http://b.hatena.ne.jp/entry/http://www.i4pc.jp<%= request.path %>" class="hatena-bookmark-button" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" /></a>
+        <script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+    </div>
+
+    <div class="twitter">
+        <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.i4pc.jp<%= request.path %>" data-text="<%= yield(:tweet) %> #i4pc #instagram" data-count="horizontal" data-via="" data-lang="en">Tweet</a>
+        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    </div>
+
+    <div class="facebook">
+        <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.i4pc.jp<%= request.path %>&amp;layout=button_count&amp;show_faces=true&amp;width=120&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe>
+    </div>
+
+</div>
+
+<a class="top hidden" href="#" title="Back to top">Top</a>
+
+<footer id="footer">
+&copy; I4PC
+</footer>
+
+<script type="text/javascript">
+    $(function() {
+        $.autopager();
+    });
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.top').addClass('hidden');
+	$('#content').waypoint(function(event, direction) {
+		$('.top').toggleClass('hidden', direction === "up");
+	});
+});
+</script>
+
+</body>
+</html>

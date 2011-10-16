@@ -1,0 +1,70 @@
+<% content_for :title,      "##{params[:tagname]} - I4PC" %>
+<% content_for :body_id,    "tag" %>
+<% content_for :body_class, "column_wide" %>
+<% content_for :tweet,      "##{params[:tagname]} - I4PC" %>
+
+<!-- Main content area -->
+<div id="content">
+
+    <div id="photos_area" class="content">
+
+        <div class="photo ad_s box_s">
+            <a href="http://p.booklog.jp/books?s=7" target="_blank"><img src="/img/ad/puboo_s.png" /></a>
+            <div class="ad_foot">
+               Ads by Puboo
+            </div>
+        </div>
+
+        <div class="photo ad_s box_s">
+            <a href="http://info.jugem.jp/?eid=16471&ref=i4pc" target="_blank"><img src="/img/ad/jugem_s.png" /></a>
+            <div class="ad_foot">
+               Ads by JUGEM
+            </div>
+        </div>
+
+        <% unless params[:max_id] %>
+        <div class="photo ad_s_google box_s">
+          <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-3240699513997091";
+            /* I4PC 125x125 */
+            google_ad_slot = "3922779509";
+            google_ad_width = 125;
+            google_ad_height = 125;
+            //-->
+          </script>
+          <script type="text/javascript"
+                  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+          </script>
+        </div>
+        <% end %>
+
+      <%= render(partial: "feed/media", collection: @feed["data"], locals: { size: "s" }) %>
+
+        <% if max_id = @feed["pagination"]["next_max_tag_id"] %>
+        <div class="pager">
+          <%= link_to '', request.path + '?max_id=' + max_id, rel: "next" %>
+        </div>
+        <% end %>
+
+    </div>
+
+	</div>
+
+</div>
+
+<div style="text-align: center">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-3240699513997091";
+/* I4PC 728x90 */
+google_ad_slot = "1415600396";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<!-- End of Main content area -->
+

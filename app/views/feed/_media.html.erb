@@ -1,0 +1,45 @@
+        <div class="box_<%= size %>">
+
+            <% if media["comments"]["count"] > 0 %>
+            <div class="comment_num"><%= media["comments"]["count"] %></div>
+            <% end %>
+
+            <div class="photo size_<%= size %>">
+                <a href="/photo/<%= media["id"] %>" rel="bookmark">
+                    <% if size == "m" %>
+                        <img src="<%= media["images"]["low_resolution"]["url"] %>" />
+                    <% else %>
+                        <img src="<%= media["images"]["thumbnail"]["url"] %>" />
+                    <% end %>
+                </a>
+            </div>
+
+            <div class="foot">
+                <div class="like <% if media["user_has_liked"] %>liked<% end %>" id="like_div_<%= media["id"] %>">
+                <% if session[:username] %>
+                    <% if media["user_has_liked"] %>
+                        <% path  = unlike_path(media["id"]) %>
+                        <% title = "Unlike this" %>
+                    <% else %>
+                        <% path  = like_path(media["id"]) %>
+                        <% title = "Like this" %>
+                    <% end %>
+                    <%= link_to path, id: "like_link_" + media["id"], title: title, remote: true do %>
+                    <span class="<% if media["user_has_liked"] %>liked_icon<% else %>like_icon<% end %>" id="like_icon_<%= media["id"] %>">&hearts;</span><span id="like_count_<%= media["id"] %>" class="like_count"><%= media["likes"]["count"] %></span>
+                    <% end %>
+                <% else %>
+                    <span class="no_link_heart">&hearts;</span><span class="like_count"><%= media["likes"]["count"] %></span>
+                <% end %>
+                </div>
+                <% if controller.controller_name == 'user' %>
+                <div class="time"><%= time_ago_in_words(Time.at(media["created_time"].to_i)) %></div>
+                <% else %>
+                <div class="name">
+                    <a href="/user/<%= media["user"]["username"] %>"><img src="<%= media["user"]["profile_picture"] %>" class="icon" /></a>
+                    <a href="/user/<%= media["user"]["username"] %>"><%= media["user"]["username"] %></a>
+                </div>
+                <% end %>
+                <div class="description"><% if media["caption"] %><%= media["caption"]["text"] %><% end %></div>
+            </div>
+            <br class="clear" />
+        </div>

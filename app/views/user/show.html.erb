@@ -1,0 +1,109 @@
+<% content_for :meta do %>
+<meta property="og:image" content="<%= @user["profile_picture"] %>" />
+<% end %>
+<% content_for :title do %><%= @user["username"] %> - I4PC<% end %>
+<% content_for :body_id, "user" %>
+
+<% content_for :body_class do %>column_normal<% if session[:username] == @user["username"] %> you<% end %><% end %>
+
+<% content_for :tweet do %><%= @user["username"] %> - I4PC<% end %>
+
+<div id="content">
+
+
+<div id="photos_area" class="content">
+
+    <%= render(partial: "feed/media", collection: @feed["data"], locals: { size: "m" }) %>
+
+    <% if max_id = @feed["pagination"]["next_max_id"] %>
+    <div class="pager">
+      <%= link_to '', user_path(max_id: max_id), rel: "next" %>
+    </div>
+    <% end %>
+
+</div>
+
+
+
+<aside>
+
+    <div id="profile_area">
+
+        <div class="profile">
+            <div class="icon"><a href="/user/<%= @user["username"] %>"><img src="<%= @user["profile_picture"] %>" /></a></div>
+            <div class="screen">
+                <a href="/user/<%= @user["username"] %>" title="<%= @user["full_name"] %>"><%= @user["username"] %></a>
+                <% if session[:username] ==  @user["username"] %>
+                <p><%= @user["full_name"] %></p>
+                <% end %>
+            </div>
+
+            <% if session[:username] !=  @user["username"] %>
+            <div id="follow_area">
+                <% if @relationship["outgoing_status"] == 'none' %>
+                <a id="follow_status" href="javascript:follow_action(<%= @user["id"] %>)" class="follow">Follow</a>
+                <% end %>
+                <% if @relationship["outgoing_status"] == 'requested' %>
+                <a id="follow_status" href="javascript:follow_action(<%= @user["id"] %>)" class="requested">Requested</a>
+                <% end %>
+                <% if @relationship["outgoing_status"] == 'follows' %>
+                <a id="follow_status" href="javascript:follow_action(<%= @user["id"] %>)" class="following">Following</a>
+                <% end %>
+            </div>
+
+            <% if @private %>
+            <div class="private">
+                This user setting is private.
+            </div>
+            <% end %>
+
+           <% end %>
+
+        </div>
+
+        <div class="stats">
+            <ul>
+                <li class="photos"><span><%= @user["counts"]["media"] %></span></li>
+                <li class="followers"><span><%= @user["counts"]["followed_by"] %></span></li>
+                <li class="following"><span><%= @user["counts"]["follows"] %></span></li>
+            </ul>
+        </div>
+        <br class="clear" />
+    </div>
+
+
+
+    <div class="ads">
+        <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-3240699513997091";
+            /* I4PC */
+            google_ad_slot = "1067265947";
+            google_ad_width = 180;
+            google_ad_height = 150;
+            //-->
+        </script>
+        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+    </div>
+
+
+    <div id="following_area">
+      <% @follows.each do |follow| %>
+        <a href="/user/<%= follow["username"] %>" title="<%= follow["username"] %>"><img src="<%= follow["profile_picture"] %>" class="icon" /></a>
+      <% end %>
+    <br class="clear" />
+    </div>
+
+
+    <div class="ad_banner">
+        <a href="http://calamel.jp/?act=event&eid=smartphone" target="_blank"><img src="http://calamel.jp/img/shared/top/smartphone_170_62.gif" alt="スマートフォン女子 - カラメル"/></a>
+    </div>
+
+
+</aside>
+
+
+
+
+
+</div>
+<!-- // content -->

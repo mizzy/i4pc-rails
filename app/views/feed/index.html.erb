@@ -1,0 +1,59 @@
+<% if request.path == '/liked' %>
+  <% content_for :title,      "Liked - I4PC"             %>
+  <% content_for :body_id,    "liked"                    %>
+<% else %>
+  <% content_for :title,      "Feed - I4PC"             %>
+  <% content_for :body_id,    "feed"                    %>
+<% end %>
+
+<% content_for :body_class, "column_wide"             %>
+<% content_for :tweet,      "I4PC - Instagram for PC" %>
+
+<div id="content">
+
+    <div id="photos_area" class="content">
+        <div class="photo ad_m box_m">
+            <a href="http://p.booklog.jp/books?s=7" target="_blank"><img src="/img/ad/puboo_m.png" /></a>
+            <div class="ad_foot">
+                Ads by Puboo
+            </div>
+        </div>
+
+        <div class="photo ad_m box_m">
+            <a href="http://info.jugem.jp/?eid=16471&ref=i4pc" target="_blank"><img src="/img/ad/jugem_m.png" /></a>
+            <div class="ad_foot">
+                Ads by JUGEM
+            </div>
+        </div>
+
+        <% unless params[:max_id] %>
+        <div class="photo ad_m_google box_m">
+          <script type="text/javascript"><!--
+            google_ad_client = "ca-pub-3240699513997091";
+            /* I4PC 200x200 */
+            google_ad_slot = "0620503640";
+            google_ad_width = 200;
+            google_ad_height = 200;
+            //-->
+          </script>
+          <script type="text/javascript"
+                  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+          </script>
+          <div class="ad_foot">
+            Ads by Google
+          </div>
+        </div>
+        <% end %>
+
+        <%= render(partial: "feed/media", locals: { size: "m" }, collection: @feed["data"]) %>
+
+        <% if max_id = @feed["pagination"]["next_max_id"] %>
+        <div class="pager">
+          <%= link_to '', request.path + '?max_id=' + max_id, rel: "next" %>
+        </div>
+        <% end %>
+
+
+    </div>
+
+</div>

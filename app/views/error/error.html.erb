@@ -1,0 +1,21 @@
+<% content_for :title, 'Error - I4PC' %>
+<% content_for :body_id, 'logout' %>
+
+<div id="content">
+<p>
+Error!
+</p>
+
+<% if @message %>
+<p><%= @message %></p>
+<% else %>
+<p>
+Something wrong with Instagram.
+</p>
+<p>
+Please try later.
+</p>
+<% end %>
+</div>
+
+

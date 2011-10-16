@@ -1,0 +1,14 @@
+media_id = "<%= params[:id] %>"
+
+var count = $('#like_count_' + media_id).text();
+count--;
+$('#like_count_' + media_id).text(count);
+
+$('#like_icon_' + media_id).attr('class', 'like_icon');
+$('#like_div_'  + media_id).attr('class', 'like');
+
+var link = $('#like_link_'  + media_id);
+link.attr('href', link.attr('href').replace(/unlike/ig, 'like'));
+link.attr('title', 'Like this');
+
+

@@ -1,0 +1,118 @@
+<% content_for :title do %><% if @media["caption"] %><%= strip_tags(convert_emoji(@media["caption"]["text"])) %><% else %><%= @media["user"]["username"] %><% end %> - I4PC<%- end -%>
+<% content_for :body_id,    "photo" %>
+<% content_for :body_class, "column_single" %>
+
+<% content_for :meta do %>
+<meta property="og:image" content="<%= @media["images"]["thumbnail"]["url"] %>" />
+<% if @media["caption"] %>
+<meta property="og:description" content="<%= @media["caption"]["text"] %>" />
+<% end %>
+<% end %>
+
+<% if @media["caption"] %>
+<% content_for :tweet, strip_tags(@media["caption"]["text"]) %>
+<% end %>
+
+<div id="content">
+
+    <div id="profile_area">
+        <div class="profile">
+            <div class="icon"><a href="/user/<%= @media["user"]["username"] %>"><img src="<%= @media["user"]["profile_picture"] %>" /></a></div>
+            <div class="screen">
+                <a href="/user/<%= @media["user"]["username"] %>"><%= @media["user"]["username"] %></a>
+                <p><%= @media["user"]["full_name"] %></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="reaction_area">
+            <div class="like <% if @media["user_has_liked"] %>liked<% end %>" id="like_div_<%= @media["id"] %>">
+            <% if session[:username] %>
+                    <% if @media["user_has_liked"] %>
+                        <% path  = unlike_path(@media["id"]) %>
+                        <% title = "Unlike this" %>
+                    <% else %>
+                        <% path  = like_path(@media["id"]) %>
+                        <% title = "Like this" %>
+                    <% end %>
+                    <%= link_to path, id: "like_link_" + @media["id"], title: title, remote: true do %>
+                    <span class="<% if @media["user_has_liked"] %>liked_icon<% else %>like_icon<% end %>" id="like_icon_<%= @media["id"] %>">&hearts;</span><span id="like_count_<%= @media["id"] %>" class="like_count"><%= @media["likes"]["count"] %></span>
+                    <% end %>
+
+             <% else %>
+                <div class="no_link"><span class="no_link_heart">&hearts;</span><span class="like_count"><%= @media["likes"]["count"] %></span></div>
+            <% end %>
+            </div>
+
+    </div>
+
+    <div id="photo_area">
+        <div class="photo size_l"><img src="<%= @media["images"]["standard_resolution"]["url"] %>" /></div>
+        <div class="time"><%= time_ago_in_words(Time.at(@media["created_time"].to_i)) %></div>
+
+        <div class="description">
+          <% if @media["caption"] %>
+            <%= sanitize(convert_emoji(@media["caption"]["text"].gsub(/#([a-zA-Z0-9\-]+)/) { sprintf('<a href="/tag/%s">#%s</a>', $1, $1) } )) %>
+          <% end %>
+        </div>
+    </div>
+
+    <div id="like_area">
+        <h3>Like</h3>
+        <div class="likes">
+        <% @likers.each do |liker| %>
+            <a href="/user/<%= liker["username"] %>"><img src="<%= liker["profile_picture"] %>" /><%= liker["username"] %></a>
+        <% end %>
+        <br class="clear" />
+        </div>
+    </div>
+    <!-- // like_area -->
+
+    <div id="comment_area">
+        <h3>Comment</h3>
+        <% if session[:username] %>
+        <div class="comment_form">
+        <form action="javascript:post_comment('<%= @media["id"] %>', <%= session[:user_id] %>, '<%= session[:username] %>', '<%= session[:profile_picture] %>')">
+            <textarea id="post_comment"></textarea><br />
+            <input type="submit" value="Comment" id="submit">
+            <span id="comment_status"></span>
+        </form>
+        </div>
+        <% end %>
+        <div class="comments">
+        <% @comments.each do |comment| %>
+        <div class="comment">
+            <div class="comment_icon">
+                <a href="/user/<%= comment["from"]["username"] %>"><img src="<%= comment["from"]["profile_picture"] %>" /></a>
+                <div class="delta"></div>
+            </div>
+            <div class="comment_text">
+                <% if session[:username] %><a href="javascript:reply_comment('<%= comment["from"]["username"] %>')" class="reply">@</a><% end %>
+                <% if session[:username] %><p class="margin"><% end %>
+                <a href="/user/<%= comment["from"]["username"] %>"><%= comment["from"]["username"] %></a> : <%= sanitize(convert_emoji(comment["text"].gsub(/#([a-zA-Z0-9\-]+)/) { sprintf('<a href="/tag/%s">#%s</a>', $1, $1) })) %>
+                <% if session[:username] %></p><% end %>
+            </div>
+        <br class="clear" />
+        </div>
+        <% end %>
+        </div>
+    </div>
+    <!-- // comment_area -->
+
+</div>
+<!-- // content -->
+
+<div style="text-align: center">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-3240699513997091";
+/* I4PC 728x90 */
+google_ad_slot = "1415600396";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
