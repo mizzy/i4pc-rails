@@ -80,6 +80,9 @@ class Insta
     key = sprintf("media_item_%s_%s", access_token, id)
     InstaCache.delete(key)
 
+    key = sprintf("user_has_liked_%s_%s", access_token, id)
+    InstaCache.set(key, 1)
+
     client = Instagram.client(:access_token => access_token)
     client.like_media(id)
   end
@@ -89,6 +92,9 @@ class Insta
     InstaCache.delete(key)
 
     key = sprintf("media_item_%s_%s", access_token, id)
+    InstaCache.delete(key)
+
+    key = sprintf("user_has_liked_%s_%s", access_token, id)
     InstaCache.delete(key)
 
     client = Instagram.client(:access_token => access_token)
