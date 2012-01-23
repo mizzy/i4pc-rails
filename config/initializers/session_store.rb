@@ -9,4 +9,6 @@
 
 I4pc::Application.config.session_store :mem_cache_store, {
   memcache_server: ['127.0.0.1:11211'],
+  key: '_i4pc_session',
+  namespace: 'i4pc',
 }
