@@ -17,8 +17,10 @@ class AuthController < ApplicationController
   end
 
   def logout
-    session[:username]     = nil
-    session[:access_token] = nil
+    session[:username]        = nil
+    session[:user_id]         = nil
+    session[:profile_picture] = nil
+    session[:access_token]    = nil
   end
 
 end
