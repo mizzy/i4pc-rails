@@ -5,9 +5,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def check_token
-    return unless session[:username]
+    return unless cookies[:username]
+    return unless session[:access_token]
+
     client = Instagram.client(:access_token => session[:access_token])
-    if session[:username] != client.user["username"]
+    if cookies[:username] != client.user["username"]
       session[:username]        = nil
       session[:user_id]         = nil
       session[:profile_picture] = nil

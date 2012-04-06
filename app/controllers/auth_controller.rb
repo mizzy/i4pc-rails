@@ -13,6 +13,8 @@ class AuthController < ApplicationController
     session[:username]        = client.user["username"]
     session[:user_id]         = client.user["id"]
     session[:profile_picture] = client.user["profile_picture"]
+
+    cookies[:username] = { value: client.user["username"] }
     redirect_to feed_url
   end
 
